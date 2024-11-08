@@ -6,6 +6,9 @@ use MichaelCozzolino\SymfonyValidationEnhancementsBundle\DependencyInjection\Mic
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
+/**
+ * @psalm-api
+ */
 class SymfonyValidationEnhancementsBundle extends AbstractBundle
 {
     public function getContainerExtension(): ?ExtensionInterface

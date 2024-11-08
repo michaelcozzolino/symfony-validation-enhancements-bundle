@@ -5,6 +5,9 @@ namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constra
 use Attribute;
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Enum\MySqlDatabaseStringLength;
 
+/**
+ * @psalm-api
+ */
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class NonEmptyVarcharDefault extends NonEmptyString
 {
