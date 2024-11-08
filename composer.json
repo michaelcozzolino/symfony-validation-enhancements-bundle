@@ -1,6 +1,7 @@
 {
     "name": "michaelcozzolino/symfony-validation-enhancements-bundle",
     "type": "symfony-bundle",
+    "version": "0.0.0",
     "autoload": {
         "psr-4": {
             "MichaelCozzolino\\SymfonyValidationEnhancementsBundle\\": "src/"
@@ -13,11 +14,11 @@
     },
     "require": {
         "php": ">=8.2",
-        "symfony/framework-bundle": "~7.1.0",
+        "symfony/framework-bundle": "^7.1.0",
         "symfony/validator": "^7.1"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "~7.1.0",
+        "symfony/phpunit-bridge": "^7.1.0",
         "phpunit/phpunit": "^10.5.38",
         "vimeo/psalm": "dev-master"
     },
