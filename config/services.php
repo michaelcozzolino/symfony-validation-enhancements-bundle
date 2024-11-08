@@ -10,5 +10,5 @@ return function (ContainerConfigurator $configurator) {
              ->autoconfigure()
              ->private();
 
-    $services->load('MichaelCozzolino\SymfonyValidationEnhancements', '../src/{Validator}/*');
+    $services->load('MichaelCozzolino\SymfonyValidationEnhancementsBundle\\', '../src/{Validator}/*');
 };
