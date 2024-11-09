@@ -14,13 +14,19 @@
     },
     "require": {
         "php": ">=8.2",
-        "symfony/framework-bundle": "^7.1.0",
-        "symfony/validator": "^7.1"
+        "symfony/framework-bundle": "^7.1",
+        "symfony/validator": "^7.1",
+        "symfony/property-access": "^7.1"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^7.1.0",
         "phpunit/phpunit": "^10.5.38",
         "vimeo/psalm": "dev-master"
+    },
+    "scripts": {
+        "psalm": [
+            "vendor/bin/psalm --no-cache"
+        ]
     },
     "config": {
         "allow-plugins": {
