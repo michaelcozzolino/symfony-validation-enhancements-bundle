@@ -11,6 +11,9 @@ use function implode;
 use function strpos;
 use function substr;
 
+/**
+ * @psalm-api
+ */
 class ValidationErrorBuilder
 {
     /**
@@ -24,7 +27,9 @@ class ValidationErrorBuilder
      *
      * @param ConstraintViolationListInterface $violations
      *
-     * @return array<string, mixed>
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
+     * @return array<array-key, mixed> The return value will never be an object as an array is always passed to setValue
      */
     public function build(ConstraintViolationListInterface $violations): array
     {
