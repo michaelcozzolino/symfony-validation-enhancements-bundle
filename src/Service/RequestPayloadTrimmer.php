@@ -2,6 +2,7 @@
 
 namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Service;
 
+use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 use function is_array;
 use function is_string;
@@ -12,15 +13,25 @@ class RequestPayloadTrimmer
 {
     public function trim(Request $request): string
     {
-        return json_encode(
+        $trimmedPayload = json_encode(
             $this->trimParameters($request->getPayload()->all())
         );
+
+        if ($trimmedPayload === false) {
+            throw new LogicException(
+                sprintf('Unable to trim payload for request with payload %s', $request->getContent())
+            );
+        }
+
+        return $trimmedPayload;
     }
 
     /**
-     * @param array<string, mixed> $parameters
+     * @param array<array-key, mixed> $parameters
      *
-     * @return array<string, mixed>
+     * @return array<array-key, mixed>
+     *
+     * @psalm-suppress MixedAssignment https://github.com/vimeo/psalm/issues/4442
      */
     protected function trimParameters(array $parameters): array
     {

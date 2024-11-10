@@ -6,6 +6,9 @@ use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Service\RequestPayloadT
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
+/**
+ * @psalm-api
+ */
 class RequestPayloadTrimmerListener
 {
     public function __construct(protected readonly RequestPayloadTrimmer $requestPayloadTrimmer)
