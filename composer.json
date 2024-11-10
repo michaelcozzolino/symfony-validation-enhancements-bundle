@@ -2,7 +2,6 @@
     "name": "michaelcozzolino/symfony-validation-enhancements-bundle",
     "description": "A set of symfony validations to enhance the experience with the Symfony validator",
     "type": "symfony-bundle",
-    "version": "0.1.0",
     "license": "MIT",
     "autoload": {
         "psr-4": {
