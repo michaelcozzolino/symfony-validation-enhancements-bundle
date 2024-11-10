@@ -3,16 +3,16 @@
 namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint;
 
 use Attribute;
-use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Enum\MySqlDatabaseStringLength;
+use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Enum\MySqlStringLength;
 
 /**
  * @psalm-api
  */
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-class NonEmptyText extends NonEmptyString
+class NonEmptyMySqlVarcharDefault extends NonEmptyString
 {
     public function __construct()
     {
-        parent::__construct(max: MySqlDatabaseStringLength::Text->value);
+        parent::__construct(max: MySqlStringLength::VarcharDefault->value);
     }
 }

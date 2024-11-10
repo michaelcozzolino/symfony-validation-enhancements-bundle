@@ -2,12 +2,12 @@
 
 namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Tests\Validator\Constraint;
 
-use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Enum\MySqlDatabaseStringLength;
+use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Enum\MySqlStringLength;
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Tests\Validator\ConstraintValidatorTestcase;
+use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyMySqlText;
+use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyMySqlVarcharDefault;
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyString;
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyStringValidator;
-use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyText;
-use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyVarcharDefault;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Random\RandomException;
 use Symfony\Component\Validator\Constraints\Email;
@@ -75,8 +75,8 @@ class NonEmptyStringValidatorTest extends ConstraintValidatorTestCase
     public function testNonEmptyVarcharDefaultIsValid(): void
     {
         $this->validator->validate(
-            $this->generateRandomString(MySqlDatabaseStringLength::VarcharDefault->value),
-            new NonEmptyVarcharDefault()
+            $this->generateRandomString(MySqlStringLength::VarcharDefault->value),
+            new NonEmptyMySqlVarcharDefault()
         );
 
         $this->assertNoViolation();
@@ -85,8 +85,8 @@ class NonEmptyStringValidatorTest extends ConstraintValidatorTestCase
     public function testNonEmptyTextIsValid(): void
     {
         $this->validator->validate(
-            $this->generateRandomString(MySqlDatabaseStringLength::Text->value),
-            new NonEmptyText()
+            $this->generateRandomString(MySqlStringLength::Text->value),
+            new NonEmptyMySqlText()
         );
 
         $this->assertNoViolation();
@@ -95,8 +95,8 @@ class NonEmptyStringValidatorTest extends ConstraintValidatorTestCase
     public function testNonEmptyVarcharDefaultIsNotValid(): void
     {
         $this->validator->validate(
-            $this->generateRandomString(1000 + MySqlDatabaseStringLength::VarcharDefault->value),
-            new NonEmptyVarcharDefault()
+            $this->generateRandomString(1000 + MySqlStringLength::VarcharDefault->value),
+            new NonEmptyMySqlVarcharDefault()
         );
 
         $this->assertViolations(1);
@@ -105,8 +105,8 @@ class NonEmptyStringValidatorTest extends ConstraintValidatorTestCase
     public function testNonEmptyTextIsNotValid(): void
     {
         $this->validator->validate(
-            $this->generateRandomString(MySqlDatabaseStringLength::Text->value + 9382),
-            new NonEmptyText()
+            $this->generateRandomString(MySqlStringLength::Text->value + 9382),
+            new NonEmptyMySqlText()
         );
 
         $this->assertViolations(1);
