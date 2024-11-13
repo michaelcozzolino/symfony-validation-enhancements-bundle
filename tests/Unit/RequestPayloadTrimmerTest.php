@@ -1,16 +1,28 @@
 <?php declare(strict_types=1);
 
+use MichaelCozzolino\PhpRedefinitions\JsonRedefinition;
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Service\RequestPayloadTrimmer;
 use Symfony\Component\HttpFoundation\Request;
 
 beforeEach(function () {
-    $this->requestPayloadTrimmer = new RequestPayloadTrimmer();
+    $this->jsonRedefinitionMock = Mockery::mock(JsonRedefinition::class);
+
+    $this->requestPayloadTrimmer = new RequestPayloadTrimmer(
+        $this->jsonRedefinitionMock
+    );
 });
 
-test('trim', function (array $parameters, array $trimmedParameters) {
+test('trim is successful', function (array $parameters, array $trimmedParameters) {
     $request = new Request(content: json_encode($parameters));
 
-    expect($this->requestPayloadTrimmer->trim($request))->toBe(json_encode($trimmedParameters));
+    $trimmedPayload = json_encode($trimmedParameters);
+
+    $this->jsonRedefinitionMock->expects('jsonEncode')
+                               ->once()
+                               ->with($trimmedParameters)
+                               ->andReturn($trimmedPayload);
+
+    expect($this->requestPayloadTrimmer->trim($request))->toBe($trimmedPayload);
 })->with([
     [
         [
@@ -61,3 +73,15 @@ test('trim', function (array $parameters, array $trimmedParameters) {
         ],
     ],
 ]);
+
+test('trim is not successful', function () {
+    $content = json_encode(['my' => 'parameters ']);
+    $request = new Request(content: $content);
+
+    $this->jsonRedefinitionMock->expects('jsonEncode')
+                               ->once()
+                               ->with(['my' => 'parameters'])
+                               ->andReturn(false);
+
+    expect($this->requestPayloadTrimmer->trim($request))->toBe($content);
+});

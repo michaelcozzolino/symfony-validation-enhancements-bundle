@@ -2,25 +2,26 @@
 
 namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Service;
 
-use LogicException;
+use MichaelCozzolino\PhpRedefinitions\JsonRedefinition;
 use Symfony\Component\HttpFoundation\Request;
 use function is_array;
 use function is_string;
-use function json_encode;
 use function trim;
 
 class RequestPayloadTrimmer
 {
+    public function __construct(protected readonly JsonRedefinition $jsonRedefinition)
+    {
+    }
+
     public function trim(Request $request): string
     {
-        $trimmedPayload = json_encode(
+        $trimmedPayload = $this->jsonRedefinition->jsonEncode(
             $this->trimParameters($request->getPayload()->all())
         );
 
         if ($trimmedPayload === false) {
-            throw new LogicException(
-                sprintf('Unable to trim payload for request with payload %s', $request->getContent())
-            );
+            return $request->getContent();
         }
 
         return $trimmedPayload;
