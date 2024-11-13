@@ -8,6 +8,9 @@ use function is_array;
 use function is_string;
 use function trim;
 
+/**
+ * @psalm-api
+ */
 class RequestPayloadTrimmer
 {
     public function __construct(protected readonly JsonRedefinition $jsonRedefinition)
