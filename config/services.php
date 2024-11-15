@@ -11,7 +11,7 @@ return function (ContainerConfigurator $configurator) {
              ->autoconfigure()
              ->private();
 
-    $services->load('MichaelCozzolino\SymfonyValidationEnhancementsBundle\\', '../src/{Builder,Listener,Service,Validator}/*');
+    $services->load('MichaelCozzolino\SymfonyValidationEnhancementsBundle\\', '../src/{Builder,Validator}/*');
 
     $services->set(JsonRedefinition::class);
 };
