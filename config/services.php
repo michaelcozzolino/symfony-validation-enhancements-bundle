@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use MichaelCozzolino\PhpRedefinitions\JsonRedefinition;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $configurator) {
@@ -10,6 +11,7 @@ return function (ContainerConfigurator $configurator) {
              ->autoconfigure()
              ->private();
 
-    $services->load('MichaelCozzolino\SymfonyValidationEnhancementsBundle\\', '../src/{Builder,Listener,Service,Validator}/*')
-        ->load('MichaelCozzolino\PhpRedefinitions\\', '../src/JsonRedefinition.php');
+    $services->load('MichaelCozzolino\SymfonyValidationEnhancementsBundle\\', '../src/{Builder,Listener,Service,Validator}/*');
+
+    $services->set(JsonRedefinition::class);
 };
