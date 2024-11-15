@@ -5,7 +5,6 @@ namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Listener;
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Service\RequestPayloadTrimmer;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * @psalm-api
@@ -16,7 +15,7 @@ class RequestPayloadTrimmerListener
     {
     }
 
-    #[AsEventListener(event: KernelEvents::REQUEST)]
+    #[AsEventListener(event: RequestEvent::class)]
     public function onKernelRequest(RequestEvent $requestEvent): void
     {
         $request = $requestEvent->getRequest();
