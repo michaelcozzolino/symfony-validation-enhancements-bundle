@@ -17,21 +17,25 @@
         "php": ">=8.2",
         "symfony/framework-bundle": "^7.1",
         "symfony/validator": "^7.1",
-        "symfony/property-access": "^7.1"
+        "symfony/property-access": "^7.1",
+        "michaelcozzolino/php-redefinitions": "^0.0.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^7.1.0",
-        "phpunit/phpunit": "^10.5.38",
-        "vimeo/psalm": "dev-master"
+        "vimeo/psalm": "dev-master",
+        "mockery/mockery": "^1.6",
+        "pestphp/pest": "^3.5"
     },
     "scripts": {
         "psalm": [
             "vendor/bin/psalm --no-cache"
-        ]
+        ],
+        "test": "vendor/bin/pest --colors=auto"
     },
     "config": {
         "allow-plugins": {
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "pestphp/pest-plugin": true
         }
     }
 }

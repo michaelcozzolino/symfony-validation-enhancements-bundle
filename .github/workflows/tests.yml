@@ -1,4 +1,4 @@
-name: Static analysis
+name: Tests
 
 on:
     push:
@@ -10,7 +10,8 @@ permissions:
     contents: read
 
 jobs:
-    build:
+    audit-and-lint:
+        name: 'Audit & Lint'
         runs-on: ubuntu-latest
 
         steps:
@@ -36,5 +37,35 @@ jobs:
             -   name: Install dependencies
                 run: composer install --prefer-dist --no-progress
 
+            -   name: Audit
+                run: composer audit
+
             -   name: Run Psalm
                 run: composer psalm
+
+    unit-tests:
+        name: 'Unit tests'
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: Set up PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.2'
+
+            -   name: Cache Composer packages
+                id: composer-cache
+                uses: actions/cache@v3
+                with:
+                    path: vendor
+                    key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-php-
+
+            -   name: Install dependencies
+                run: composer install --prefer-dist --no-progress
+
+            -   name: Unit tests
+                run: composer test
