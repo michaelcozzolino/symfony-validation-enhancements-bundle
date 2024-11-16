@@ -5,6 +5,7 @@ use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Listener\ValidationErro
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -26,7 +27,7 @@ beforeEach(function () {
     $this->eventDispatcher->addListener('onKernelException', [$this->validationErrorListener, 'onKernelException']);
 });
 
-it('sets the response with the correct validation errors', function () {
+it('sets the response with the correct validation errors', function (array $arguments, int $statusCode) {
     $kernelMock  = Mockery::mock(HttpKernelInterface::class);
     $requestMock = Mockery::mock(Request::class);
     $requestType = 1;
@@ -39,7 +40,7 @@ it('sets the response with the correct validation errors', function () {
             $requestMock,
             $requestType
         ),
-        [new MapRequestPayload()],
+        $arguments,
         $requestMock,
         $requestType
     );
@@ -73,8 +74,17 @@ it('sets the response with the correct validation errors', function () {
     $actualResponse = $exceptionEvent->getResponse();
 
     expect($actualResponse->getContent())->toBe(json_encode($validationErrors));
-    expect($actualResponse->getStatusCode())->toBe(Response::HTTP_UNPROCESSABLE_ENTITY);
-});
+    expect($actualResponse->getStatusCode())->toBe($statusCode);
+})->with([
+    [
+        [new MapRequestPayload()],
+        Response::HTTP_UNPROCESSABLE_ENTITY,
+    ],
+    [
+        [new MapQueryString()],
+        Response::HTTP_NOT_FOUND,
+    ],
+]);
 
 it(
     'does not set any response when the request is not the main one',

@@ -12,6 +12,9 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 
+/**
+ * @psalm-api
+ */
 class ValidationErrorListener
 {
     private ?int $validationErrorResponseStatusCode = null;
@@ -53,6 +56,9 @@ class ValidationErrorListener
             return;
         }
 
+        /**
+         * @psalm-suppress MixedAssignment The array is not type hinted from symfony
+         */
         foreach ($event->getArguments() as $eventArgument) {
             if ($eventArgument instanceof MapRequestPayload || $eventArgument instanceof MapQueryString) {
                 $this->validationErrorResponseStatusCode = $eventArgument->validationFailedStatusCode;
