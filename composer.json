@@ -30,7 +30,7 @@
         "psalm": [
             "vendor/bin/psalm --no-cache"
         ],
-        "test": "vendor/bin/pest --colors=auto"
+        "test": "XDEBUG_MODE=coverage vendor/bin/pest --coverage --min=100 --colors=auto"
     },
     "config": {
         "allow-plugins": {
