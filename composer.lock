@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7264556b4a8528d15254b0790bf51c9d",
+    "content-hash": "12fcdc983d2210921d68b443ff755f8d",
     "packages": [
         {
             "name": "michaelcozzolino/php-redefinitions",
-            "version": "v0.0.0",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaelcozzolino/php-redefinitions.git",
-                "reference": "8e77914528394c9390473b12c35f84566272be93"
+                "reference": "4ae78d7c3f3b8fd1b663e1c1eb797d053c4dab1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaelcozzolino/php-redefinitions/zipball/8e77914528394c9390473b12c35f84566272be93",
-                "reference": "8e77914528394c9390473b12c35f84566272be93",
+                "url": "https://api.github.com/repos/michaelcozzolino/php-redefinitions/zipball/4ae78d7c3f3b8fd1b663e1c1eb797d053c4dab1b",
+                "reference": "4ae78d7c3f3b8fd1b663e1c1eb797d053c4dab1b",
                 "shasum": ""
             },
             "require": {
@@ -57,9 +57,9 @@
             "description": "Provides a GitHub repository template for a PHP package with GitHub Actions workflows using standard PHP development tools.",
             "support": {
                 "issues": "https://github.com/michaelcozzolino/php-redefinitions/issues",
-                "source": "https://github.com/michaelcozzolino/php-redefinitions/tree/v0.0.0"
+                "source": "https://github.com/michaelcozzolino/php-redefinitions/tree/v0.1.0"
             },
-            "time": "2024-11-13T21:29:38+00:00"
+            "time": "2024-11-17T10:58:40+00:00"
         },
         {
             "name": "psr/cache",
