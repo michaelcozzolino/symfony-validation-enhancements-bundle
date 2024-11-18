@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class EntityExistsValidator extends ConstraintValidator
 {
-    public function __construct(public readonly EntityManagerInterface $entityManager)
+    public function __construct(protected readonly EntityManagerInterface $entityManager)
     {
     }
 
@@ -29,6 +29,10 @@ class EntityExistsValidator extends ConstraintValidator
     {
         if ($constraint instanceof EntityExists === false) {
             throw new UnexpectedTypeException($constraint, EntityExists::class);
+        }
+
+        if ($value === null || trim((string) $value) === '') {
+            return;
         }
 
         $repository = $this->entityManager->getRepository($constraint->getEntityClass());
