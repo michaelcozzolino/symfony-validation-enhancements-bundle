@@ -4,6 +4,8 @@ use MichaelCozzolino\PhpRedefinitions\JsonRedefinition;
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Service\RequestPayloadTrimmer;
 use Symfony\Component\HttpFoundation\Request;
 
+covers(RequestPayloadTrimmer::class);
+
 beforeEach(function () {
     $this->jsonRedefinitionMock = Mockery::mock(JsonRedefinition::class);
 
