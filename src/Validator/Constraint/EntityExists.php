@@ -2,12 +2,14 @@
 
 namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint;
 
+use Attribute;
 use ReflectionException;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * @psalm-api
  */
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class EntityExists extends Constraint
 {
     /**
@@ -24,7 +26,7 @@ class EntityExists extends Constraint
         protected readonly string  $entityProperty = 'id',
         protected readonly ?string $entityName = null,
         mixed                      $options = null,
-        array                      $groups = null,
+        ?array                     $groups = null,
         mixed                      $payload = null
     ) {
         parent::__construct($options, $groups, $payload); // @pest-mutate-ignore
