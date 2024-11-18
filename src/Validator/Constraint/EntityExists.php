@@ -5,6 +5,9 @@ namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constra
 use ReflectionException;
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * @psalm-api
+ */
 class EntityExists extends Constraint
 {
     /**

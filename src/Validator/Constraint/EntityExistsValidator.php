@@ -9,6 +9,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
+ * @psalm-api
  * @psalm-suppress PropertyNotSetInConstructor $context is set in {@see ConstraintValidator::initialize}
  */
 class EntityExistsValidator extends ConstraintValidator
