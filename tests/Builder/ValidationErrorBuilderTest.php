@@ -1,99 +1,84 @@
 <?php declare(strict_types=1);
 
-namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Tests\Builder;
-
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Builder\ValidationErrorBuilder;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 
-class ValidationErrorBuilderTest extends TestCase
-{
-    protected ValidationErrorBuilder $validationErrorBuilder;
+beforeEach(function () {
+    $this->validationErrorBuilder = new ValidationErrorBuilder();
+});
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+dataset('validation errors', function () {
+    $propertyPath1     = 'name';
+    $violationMessage1 = 'name is not valid';
 
-        $this->validationErrorBuilder = new ValidationErrorBuilder();
-    }
+    $propertyPath2     = 'person.name';
+    $violationMessage2 = 'person name is not valid';
 
-    public static function providerForBuild(): array
-    {
-        $propertyPath1     = 'name';
-        $violationMessage1 = 'name is not valid';
+    $propertyPath3     = 'person.parent.name';
+    $violationMessage3 = 'parent person name is not valid';
 
-        $propertyPath2     = 'person.name';
-        $violationMessage2 = 'person name is not valid';
+    $propertyPath4     = 'person.children[2].name';
+    $violationMessage4 = 'children name is not valid';
 
-        $propertyPath3     = 'person.parent.name';
-        $violationMessage3 = 'parent person name is not valid';
-
-        $propertyPath4     = 'person.children[2].name';
-        $violationMessage4 = 'children name is not valid';
-
-        return [
+    return [
+        [
+            $propertyPath1,
+            $violationMessage1,
             [
-                $propertyPath1,
-                $violationMessage1,
-                [
-                    $propertyPath1 => [$violationMessage1],
+                $propertyPath1 => [$violationMessage1],
+            ],
+        ],
+        [
+            $propertyPath2,
+            $violationMessage2,
+            [
+                'person' => [
+                    'name' => [$violationMessage2],
                 ],
             ],
+        ],
+        [
+            $propertyPath3,
+            $violationMessage3,
             [
-                $propertyPath2,
-                $violationMessage2,
-                [
-                    'person' => [
-                        'name' => [$violationMessage2],
+                'person' => [
+                    'parent' => [
+                        'name' => [$violationMessage3],
                     ],
                 ],
             ],
+        ],
+        [
+            $propertyPath4,
+            $violationMessage4,
             [
-                $propertyPath3,
-                $violationMessage3,
-                [
-                    'person' => [
-                        'parent' => [
-                            'name' => [$violationMessage3],
+                'person' => [
+                    'children' => [
+                        2 => [
+                            'name' => [$violationMessage4],
                         ],
                     ],
                 ],
             ],
-            [
-                $propertyPath4,
-                $violationMessage4,
-                [
-                    'person' => [
-                        'children' => [
-                            2 => [
-                                'name' => [$violationMessage4],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ];
-    }
+        ],
+    ];
+});
 
-    #[DataProvider('providerForBuild')]
-    public function testBuild(string $propertyPathName, string $violationMessage, array $expectedErrors): void
-    {
-        $violationMock = $this->createMock(ConstraintViolation::class);
+test('build', function (string $propertyPathName, string $violationMessage, array $expectedErrors) {
+    $violationMock = Mockery::mock(ConstraintViolation::class);
 
-        $violationMock->expects(self::once())
-                      ->method('getPropertyPath')
-                      ->willReturn($propertyPathName);
+    $violationMock->expects('getPropertyPath')
+                  ->once()
+                  ->andReturn($propertyPathName);
 
-        $violationMock->expects(self::once())
-                      ->method('getMessage')
-                      ->willReturn($violationMessage);
+    $violationMock->expects('getMessage')
+                  ->once()
+                  ->andReturn($violationMessage);
 
-        $violationMocks = new ConstraintViolationList([$violationMock]);
+    $violationMocks = new ConstraintViolationList([$violationMock]);
 
-        $actualErrors = $this->validationErrorBuilder->build($violationMocks);
+    $actualErrors = $this->validationErrorBuilder->build($violationMocks);
 
-        self::assertSame($expectedErrors, $actualErrors);
-    }
-}
+    expect($expectedErrors)->toBe($actualErrors);
+})->with('validation errors');
