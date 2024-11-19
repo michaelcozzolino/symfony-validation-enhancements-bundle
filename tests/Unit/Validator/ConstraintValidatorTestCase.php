@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Tests\Validator;
+namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Tests\Unit\Validator;
 
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase as BaseConstraintValidatorTestCase;
 
-abstract class ConstraintValidatorTestcase extends BaseConstraintValidatorTestCase
+abstract class ConstraintValidatorTestCase extends BaseConstraintValidatorTestCase
 {
     protected function assertViolations(int $expectedViolationsCount): void
     {
