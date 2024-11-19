@@ -40,8 +40,8 @@ jobs:
             -   name: Audit
                 run: composer audit
 
-            -   name: Run Psalm
-                run: composer psalm
+            -   name: Static analysis
+                run: composer static-analysis
 
     unit-tests:
         name: 'Unit tests'
