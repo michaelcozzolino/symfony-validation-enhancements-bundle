@@ -7,6 +7,8 @@ use ReflectionException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use function is_string;
+use function trim;
 
 /**
  * @psalm-api
@@ -32,7 +34,10 @@ class EntityExistsValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, EntityExists::class);
         }
 
-        if ($value === null || trim((string) $value) === '') {
+        if (
+            $value === null ||
+            (is_string($value) && trim($value) === '')
+        ) {
             return;
         }
 

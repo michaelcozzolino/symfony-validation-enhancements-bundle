@@ -3,6 +3,7 @@
 namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Builder;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Validator\Constraints\DivisibleBy;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -27,9 +28,7 @@ class ValidationErrorBuilder
      *
      * @param ConstraintViolationListInterface $violations
      *
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
-     * @return array<array-key, mixed> The return value will never be an object as an array is always passed to setValue
+     * @return array<array-key, mixed>
      */
     public function build(ConstraintViolationListInterface $violations): array
     {
@@ -47,7 +46,13 @@ class ValidationErrorBuilder
             );
         }
 
-        return $errors;
+        /**
+         * @noinspection PhpCastIsUnnecessaryInspection
+         *
+         * The return value will never be an object as an array is always passed to {@see PropertyAccessor::setValue},
+         * but the cast is needed for both static analysis.
+         */
+        return (array) $errors;
     }
 
     /**

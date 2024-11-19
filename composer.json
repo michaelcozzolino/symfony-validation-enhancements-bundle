@@ -25,11 +25,17 @@
         "symfony/phpunit-bridge": "^7.1.0",
         "vimeo/psalm": "dev-master",
         "mockery/mockery": "^1.6",
-        "pestphp/pest": "^3.5"
+        "pestphp/pest": "^3.5",
+        "phpstan/phpstan": "^2.0"
     },
     "scripts": {
         "psalm": [
             "vendor/bin/psalm --no-cache"
+        ],
+        "phpstan": "vendor/bin/phpstan clear-result-cache --configuration=phpstan.neon && vendor/bin/phpstan --configuration=phpstan.neon --memory-limit=-1",
+        "static-analysis": [
+            "@psalm",
+            "@phpstan"
         ],
         "test": "vendor/bin/pest --colors=auto",
         "test-coverage": "XDEBUG_MODE=coverage vendor/bin/pest --coverage --min=100 --colors=auto",
