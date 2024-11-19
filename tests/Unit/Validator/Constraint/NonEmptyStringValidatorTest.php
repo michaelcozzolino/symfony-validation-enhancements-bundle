@@ -8,7 +8,12 @@ use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\No
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-covers(NonEmptyStringValidator::class);
+covers(
+    NonEmptyStringValidator::class,
+    NonEmptyString::class,
+    NonEmptyVarcharDefault::class,
+    NonEmptyText::class
+);
 
 dataset('unexpected types', function () {
     return [
@@ -22,7 +27,7 @@ test('validate when an unexpected type exception occurs', function (string | int
 })->with('unexpected types')
   ->throws(UnexpectedTypeException::class);
 
-dataset('non empty strings', function () {
+dataset('non empty strings or null', function () {
     return [
         [null, 'hello'],
         [null, null],
@@ -32,19 +37,18 @@ dataset('non empty strings', function () {
     ];
 });
 
-test('non empty string is valid', function (?int $max, ?string $value) {
+test('non empty string or null is valid', function (?int $max, ?string $value) {
     $constraint = new NonEmptyString($max);
 
     $this->validator->validate($value, $constraint);
 
     $this->assertNoViolation();
-})->with('non empty strings');
+})->with('non empty strings or null');
 
 dataset('non empty string is not valid', function () {
     return [
         [50, '          ',],
         [502, '',],
-        [2, 'abc',],
     ];
 });
 
