@@ -15,6 +15,22 @@ covers(
     NonEmptyText::class
 );
 
+dataset('expected lengths', function () {
+    return [
+        [1],
+        [2],
+        [900],
+        [null],
+    ];
+});
+
+test('NonEmptyString must have min and max lengths', function (?int $max) {
+    $constraint = new NonEmptyString($max);
+
+    expect($constraint->min)->toBe(1);
+    expect($constraint->max)->toBe($max);
+})->with('expected lengths');
+
 dataset('unexpected types', function () {
     return [
         [2, new NonEmptyString()],

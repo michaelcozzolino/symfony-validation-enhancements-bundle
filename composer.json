@@ -37,9 +37,9 @@
             "@psalm",
             "@phpstan"
         ],
-        "test": "vendor/bin/pest --colors=auto",
-        "test-coverage": "XDEBUG_MODE=coverage vendor/bin/pest --coverage --min=100 --colors=auto",
-        "test-mutate": "XDEBUG_MODE=coverage vendor/bin/pest --mutate"
+        "test": "vendor/bin/pest --colors=auto --parallel",
+        "test-coverage": "XDEBUG_MODE=coverage vendor/bin/pest --coverage --min=100 --colors=auto --parallel",
+        "test-mutate": "XDEBUG_MODE=coverage vendor/bin/pest --mutate --parallel"
     },
     "config": {
         "allow-plugins": {

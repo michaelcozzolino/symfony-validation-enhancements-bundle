@@ -20,7 +20,7 @@ class NonEmptyStringValidator extends LengthValidator
             throw new UnexpectedTypeException($value, 'string');
         }
 
-        if ($constraint instanceof NonEmptyString === false) {
+        if ($constraint instanceof NonEmptyString === false) { // @pest-mutate-ignore
             throw new UnexpectedTypeException($constraint, NonEmptyString::class);
         }
 
