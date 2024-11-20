@@ -3,6 +3,8 @@ parameters:
 
     level: max
 
+    excludePaths:
+        - tests/
     paths:
         - src/
 
