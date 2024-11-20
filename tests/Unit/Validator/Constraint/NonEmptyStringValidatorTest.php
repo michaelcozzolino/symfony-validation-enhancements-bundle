@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 
-use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Enum\MySqlDatabaseStringLength;
+use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Enum\MySqlStringLength;
+use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyMySqlText;
+use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyMySqlVarcharDefault;
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyString;
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyStringValidator;
-use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyText;
-use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\NonEmptyVarcharDefault;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 covers(
     NonEmptyStringValidator::class,
     NonEmptyString::class,
-    NonEmptyVarcharDefault::class,
-    NonEmptyText::class
+    NonEmptyMySqlVarcharDefault::class,
+    NonEmptyMySqlText::class
 );
 
 dataset('expected lengths', function () {
@@ -78,8 +78,8 @@ test('non empty string is not valid', function (?int $max, string $value) {
 
 test('non empty varchar default is valid', function () {
     $this->validator->validate(
-        $this->generateRandomString(MySqlDatabaseStringLength::VarcharDefault->value),
-        new NonEmptyVarcharDefault()
+        $this->generateRandomString(MySqlStringLength::VarcharDefault->value),
+        new NonEmptyMySqlVarcharDefault()
     );
 
     $this->assertNoViolation();
@@ -87,8 +87,8 @@ test('non empty varchar default is valid', function () {
 
 test('non empty text is valid', function () {
     $this->validator->validate(
-        $this->generateRandomString(MySqlDatabaseStringLength::Text->value),
-        new NonEmptyText()
+        $this->generateRandomString(MySqlStringLength::Text->value),
+        new NonEmptyMySqlText()
     );
 
     $this->assertNoViolation();
@@ -96,8 +96,8 @@ test('non empty text is valid', function () {
 
 test('non empty varchar default is not valid', function () {
     $this->validator->validate(
-        $this->generateRandomString(1000 + MySqlDatabaseStringLength::VarcharDefault->value),
-        new NonEmptyVarcharDefault()
+        $this->generateRandomString(1000 + MySqlStringLength::VarcharDefault->value),
+        new NonEmptyMySqlVarcharDefault()
     );
 
     $this->assertViolations(1);
@@ -105,8 +105,8 @@ test('non empty varchar default is not valid', function () {
 
 test('non empty text is not valid', function () {
     $this->validator->validate(
-        $this->generateRandomString(MySqlDatabaseStringLength::Text->value + 9382),
-        new NonEmptyText()
+        $this->generateRandomString(MySqlStringLength::Text->value + 9382),
+        new NonEmptyMySqlText()
     );
 
     $this->assertViolations(1);
