@@ -2,7 +2,7 @@
 
 namespace MichaelCozzolino\SymfonyValidationEnhancementsBundle\Enum;
 
-enum MySqlDatabaseStringLength: int
+enum MySqlStringLength: int
 {
     case VarcharDefault = 255;
 
