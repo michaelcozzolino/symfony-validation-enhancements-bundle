@@ -49,10 +49,8 @@ The bundle automatically register the following event listeners:
 The `RequestPayloadTrimmerListener` is an event listener designed to trim whitespace from the request payload during the
 Symfony kernel request event. This ensures clean and sanitized data is passed through the application.
 
-used together with the `NonEmptyString` constraint it will allow the validation to fail in case a request is receiving
-data
-that is empty such as
-
+When used together with the `NonEmptyString` constraint, it will cause validation to fail for requests containing only
+whitespace or empty strings, such as:
 ```json
 {
     "name": "     ",
