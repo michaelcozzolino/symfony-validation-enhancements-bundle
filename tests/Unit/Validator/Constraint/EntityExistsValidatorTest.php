@@ -35,11 +35,11 @@ test('validate when value is empty', function (?string $value) {
     null,
 ]);
 
-test('validate when entity exists', function () {
+test('validate existence when entity exists', function () {
     $repositoryMock = Mockery::mock(EntityRepository::class);
 
-    $entityClass = 'class';
-    $constraint  = new EntityExists($entityClass);
+    $entityClass = Entity::class;
+    $constraint  = new EntityExists($entityClass, true);
 
     $this->entityManagerMock->expects('getRepository')
                             ->once()
@@ -61,10 +61,10 @@ test('validate when entity exists', function () {
     $this->entityExistsValidator->validate($entityId, $constraint);
 });
 
-test('validate when entity does not exist', function (string $entityClass, string $entityProperty, ?string $entityName, int | string $value) {
+test('validate existence when entity does not exist', function (string $entityClass, string $entityProperty, ?string $entityName, int | string $value) {
     $repositoryMock = Mockery::mock(EntityRepository::class);
 
-    $constraint = new EntityExists($entityClass, $entityProperty, $entityName);
+    $constraint = new EntityExists($entityClass, true, $entityProperty, $entityName);
 
     $this->entityManagerMock->expects('getRepository')
                             ->once()
@@ -89,3 +89,58 @@ test('validate when entity does not exist', function (string $entityClass, strin
     [Entity::class, 'id', 'entity', 'p'],
     [Entity::class, 'id', null, 'p'],
 ]);
+
+test('validate non existence when entity exists', function () {
+    $repositoryMock = Mockery::mock(EntityRepository::class);
+
+    $entityClass = Entity::class;
+    $constraint  = new EntityExists($entityClass, false);
+
+    $this->entityManagerMock->expects('getRepository')
+                            ->once()
+                            ->with($entityClass)
+                            ->andReturn($repositoryMock);
+
+    $entityId = 2;
+
+    $entity = new class {
+    };
+
+    $repositoryMock->expects('findOneBy')
+                   ->once()
+                   ->with([
+                       'id' => $entityId,
+                   ])
+                   ->andReturn($entity);
+
+    $this->contextMock->expects('addViolation')
+                      ->once()
+                      ->with("The requested `Entity` already exists.");
+
+    $this->entityExistsValidator->validate($entityId, $constraint);
+});
+
+test('validate non existence when entity does not exist', function () {
+    $repositoryMock = Mockery::mock(EntityRepository::class);
+
+    $entityClass = Entity::class;
+    $constraint  = new EntityExists($entityClass, false);
+
+    $this->entityManagerMock->expects('getRepository')
+                            ->once()
+                            ->with($entityClass)
+                            ->andReturn($repositoryMock);
+
+    $entityId = 2;
+
+    $repositoryMock->expects('findOneBy')
+                   ->once()
+                   ->with([
+                       'id' => $entityId,
+                   ])
+                   ->andReturn(null);
+
+    $this->contextMock->expects('addViolation')->never();
+
+    $this->entityExistsValidator->validate($entityId, $constraint);
+});

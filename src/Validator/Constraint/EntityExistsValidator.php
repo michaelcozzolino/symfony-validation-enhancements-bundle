@@ -47,8 +47,18 @@ class EntityExistsValidator extends ConstraintValidator
             $constraint->getEntityProperty() => $value,
         ]);
 
-        if ($entity === null) {
-            $this->context->addViolation("The requested `{$constraint->getEntityName()}` does not exist.");
+        $validateExistence = $constraint->validateExistence();
+
+        $entityName = $constraint->getEntityName();
+
+        if ($validateExistence && $entity === null) {
+            $this->context->addViolation("The requested `$entityName` does not exist.");
+
+            return;
+        }
+
+        if ($validateExistence === false && $entity !== null) {
+            $this->context->addViolation("The requested `$entityName` already exists.");
         }
     }
 }
