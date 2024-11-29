@@ -15,14 +15,14 @@
     },
     "require": {
         "php": ">=8.2",
-        "symfony/framework-bundle": "^7.1",
-        "symfony/validator": "^7.1",
-        "symfony/property-access": "^7.1",
+        "symfony/framework-bundle": "^7.2",
+        "symfony/validator": "^7.2",
+        "symfony/property-access": "^7.2",
         "michaelcozzolino/php-redefinitions": "^0.1.0",
-        "doctrine/orm": "^2.20.0"
+        "doctrine/orm": "^3.3.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^7.1.0",
+        "symfony/phpunit-bridge": "^7.2",
         "vimeo/psalm": "dev-master",
         "mockery/mockery": "^1.6",
         "pestphp/pest": "^3.5",

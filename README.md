@@ -192,14 +192,18 @@ It checks that an entity exists, meaning that there exists one row in the databa
 ```php
 use MichaelCozzolino\SymfonyValidationEnhancementsBundle\Validator\Constraint\EntityExists;class EntityRequest {
     public function __construct(
-        #[EntityExists(entityClass: MyEntity::Class, entityProperty: 'id', entityName: 'my entity')]
+        #[EntityExists(entityClass: MyEntity::Class, validateExistence:true, entityProperty: 'id', entityName: 'my entity')]
         public readonly int $entityId
     ) {
     }
 }
 ```
 ### Parameters
-`entityClass`: The class-string of the entity
+`entityClass`: The class-string of the entity.
+
+`validateExistence`: If set to true the validation will fail if the entity already exists, if set to false the validation
+will fail if the entity does not exist. The last one is useful for example when you want to store some data whose id
+is for example a non auto generated one but decided by the code. **Default**: `true`
 
 `entityProperty`: The name of the column used as primary key to retrieve the entity. **Default**: `'id'`
 
